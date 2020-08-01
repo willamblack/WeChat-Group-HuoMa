@@ -5,16 +5,24 @@
 
 # 作者博客
 http://www.likeyun.cn/
-# 交流群
-http://pic.iask.cn/fimg/681565120779.jpg
+
+# 遇到问题请加入交流群
+http://pic.iask.cn/fimg/805445297649.jpg
+
+# 功能总览
+`1、创建微信群活码、可添加群主微信二维码、可统计二维码访问量`<br/>
+`2、微信群二维码达到峰值可以自动切换备用二维码`<br/>
+`3、创建微信群活码可以选择落地页域名`<br/>
+`4、创建渠道二维码，可以创建文本类型和链接类型`<br/>
+`5、渠道二维码，可以随时变更文本内容或链接`<br/>
 
 # 更新日志
-版本：v3.0.0<br/>
-`1、新增备用群二维码`<br/>
-`2、新增峰值，达到峰值自动切换群二维码`<br/>
-`3、该版本改用一键安装模式`<br/>
+版本：v4.0.0<br/>
+`1、新增创建渠道码（网址活码和文本活码）`<br/>
+`2、新增设置落地页域名，可以设置多个域名，随时切换`<br/>
+`3、优化一些Ui的小问题和后端的一些安全问题`<br/>
 
-本次更新与前2个版本不兼容，所以需要重新安装，安装前请到你的数据库把原来的数据表`qun_huoma`做好备份，以便安装完成后，恢复原有的数据，备份后，需要删除数据表`qun_huoma`，否则安装不能成功！<br/>
+本次更新与前3个版本不兼容，所以需要重新安装，安装前请到你的数据库把原来的数据表`qun_huoma`做好备份，以便安装完成后，恢复原有的数据，备份后，需要删除数据表`qun_huoma`，否则安装不能成功！<br/>
 
 # 安装步骤
 `1、把所有代码上传到服务器`<br/>
@@ -33,6 +41,15 @@ http://pic.iask.cn/fimg/681565120779.jpg
 ![添加群活码](https://github.com/likeyun/TANKING/blob/master/20200716113531.png)
 ![添加群活码](https://github.com/likeyun/TANKING/blob/master/20200716113652.png)
 
+# 设置落地页域名
+![添加群活码](https://github.com/likeyun/TANKING/blob/master/yuming_set.png?raw=true)
+
+# 创建渠道码
+什么是渠道码？就是一个二维码，相比于其他二维码，渠道码可以统计访问次数，可以创建不同的渠道码，用于投放在不同的场所，可以统计不同渠道的效果，也可以在不变更二维码的前提下修改文本或跳转的链接，可以理解为文本活码和网址活码。
+
+![添加渠道码](https://github.com/likeyun/TANKING/blob/master/guanli_qudaoma.png?raw=true)
+![添加渠道码](https://github.com/likeyun/TANKING/blob/master/creat_qudaoma.png)
+
 # 活码界面
 <img src="https://github.com/likeyun/TANKING/blob/master/qunhuoma-page.jpg" width="400"/>
 
@@ -42,9 +59,6 @@ http://pic.iask.cn/fimg/681565120779.jpg
 那么后台访问地址是
 http://www.xxx.com/huoma/admin
 ```
-
-# 活码交流群
-<img src="https://github.com/likeyun/TANKING/blob/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200716114242.jpg" width="400"/>
 
 # 赞赏
 <img src="https://github.com/likeyun/TANKING/blob/master/wxzhanshang.jpg?raw=true" width="300"/>
