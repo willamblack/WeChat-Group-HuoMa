@@ -8,13 +8,14 @@
   <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
   <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <link rel="icon" href="../images/xiaotubiao.png" type="image/x-icon" />
+  <link rel="icon" href="https://bit-images.bj.bcebos.com/bit-new/file/20200629/3vum.jpg" type="image/x-icon" />
   <link rel="stylesheet" type="text/css" href="../css/login.css">
+  <link rel="icon" href="../images/xiaotubiao.png" type="image/x-icon" />
 </head>
 <body>
 
 <div class="container mt-3">
-  <br/><h1>登录活码管理系统 - 管理端</h1><br/>
+  <br/><h1>登录活码管理系统 - 客户端</h1><br/>
   <form role="form" action="##" onsubmit="return false" method="post" id="login">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -28,11 +29,12 @@
       </div>
       <input type="password" class="form-control" name="pwd" placeholder="请输入密码">
     </div>
-    <button type="button" class="btn btn-secondary" onclick="login()">登录</button>
+    <button type="button" class="btn btn-secondary" onclick="login()">登录</button><br/><br/>
   </form>
 
   <!-- Result -->
   <div class="Result"></div>
+  <a href="reg.php" style="margin-top:10px;text-align: center;display: block;color: #666;">没有账号？点击这里注册账号</a>
 </div>
 
 <script>

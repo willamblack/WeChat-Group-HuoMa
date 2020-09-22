@@ -48,7 +48,7 @@
 	    <?php
       header("Content-type:text/html;charset=utf-8");
 	    session_start();
-			if(isset($_SESSION["huoma.admin"])){
+			if(isset($_SESSION["huoma.user.admin"])){
 
         // 数据库配置
         include '../MySql.php';

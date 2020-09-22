@@ -35,6 +35,9 @@
       <a class="nav-link active" data-toggle="pill" href="#home">管理渠道码</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" href="add_qudao.php">创建渠道码</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="index.php">返回首页</a>
     </li>
   </ul>
@@ -45,9 +48,10 @@
       <?php
       header("Content-type:text/html;charset=utf-8");
       session_start();
-      if(isset($_SESSION["huoma.admin"])){
+      if(isset($_SESSION["huoma.user.admin"])){
         // 已登录
-        $lguser = $_SESSION["huoma.admin"];
+        $lguser = $_SESSION["huoma.user.admin"];
+
         // 数据库配置
         include '../MySql.php';
 
@@ -58,37 +62,8 @@
         if ($conn->connect_error) {
             die("连接失败: " . $conn->connect_error);
         } 
-
-        //计算总渠道码数量
-        $sql_qudao = "SELECT * FROM qun_huoma_qudao";
-        $result_qudao = $conn->query($sql_qudao);
-        $allqudao_num = $result_qudao->num_rows;
-
-        //每页显示的渠道码数量
-        $lenght = 5;
-
-        //当前页码
-        @$page = $_GET['page']?$_GET['page']:1;
-
-        //每页第一行
-        $offset = ($page-1)*$lenght;
-
-        //总数页
-        $allpage = ceil($allqudao_num/$lenght);
-
-        //上一页     
-        $prepage = $page-1;
-        if($page==1){
-          $prepage=1;
-        }
-
-        //下一页
-        $nextpage = $page+1;
-        if($page==$allpage){
-          $nextpage=$allpage;
-        }
          
-        $sql = "SELECT * FROM qun_huoma_qudao ORDER BY ID DESC limit {$offset},{$lenght}";
+        $sql = "SELECT * FROM qun_huoma_qudao WHERE qudao_adduser = '$lguser' ORDER BY ID DESC";
         $result = $conn->query($sql);
          
         if ($result->num_rows > 0) {
@@ -97,7 +72,6 @@
 
             $id  = $row["id"];
             $qudao_id  = $row["qudao_id"];
-            $qudao_adduser  = $row["qudao_adduser"];
             $qudao_title  = $row["qudao_title"];
             $qudao_yuming  = $row["qudao_yuming"];
             $qudao_type  = $row["qudao_type"];
@@ -114,26 +88,13 @@
                 <a href="#" class="card-link" data-toggle="modal" data-target="#share-huoma" id="'.$qudao_id.'" onclick="sharequdaoma(this);" style="outline:none;color:#333;">分享</a>
                 <span class="badge badge-secondary" style="float: right;">访问量：'.$qudao_pageview.'</span>
                 <span class="badge badge-secondary" style="float: right;margin-right:10px;">'.$qudao_update_time.'</span>
-                <span class="badge badge-warning" style="float: right;margin-right:10px;">'.$qudao_biaoqian.'</span>
-                <span class="badge badge-warning" style="float: right;margin-right:10px;">账号:'.$qudao_adduser.'</span>';
+                <span class="badge badge-warning" style="float: right;margin-right:10px;">'.$qudao_biaoqian.'</span>';
               echo "</div>";
             echo "</div>";
             }
-            echo "<ul class=\"pagination\">";
-              if ($page == 1) {
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"javascript:;\" style=\"color:#333;font-size:14px;\">当前是第".$page."页</a></li>";
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"qudao.php?page=".$nextpage."\" style=\"color:#333;font-size:14px;\">下一页</a></li>";
-              }else if ($page == $allpage) {
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"qudao.php?page=".$prepage."\" style=\"color:#333;font-size:14px;\">上一页</a></li>";
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"javascript:;\" style=\"color:#333;font-size:14px;\">当前是第".$page."页，已经是最后一页</a></li>";
-              }else{
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"qudao.php?page=".$prepage."\" style=\"color:#333;font-size:14px;\">上一页</a></li>";
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"javascript:;\" style=\"color:#333;font-size:14px;\">当前是第".$page."页</a></li>";
-                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"qudao.php?page=".$nextpage."\" style=\"color:#333;font-size:14px;\">下一页</a></li>";
-              }
-            echo "</ul>";
+            echo "<p style=\"color:#666;font-size:14px;\">Power By <a href=\"http://www.likeyun.cn\" style=\"text-decoration:none;color:#666;\">www.likeyun.cn</a></p>";
         } else {
-            echo "暂无用户创建渠道码，你也可以前往<a href='../user/qudao.php'>用户后台</a>创建";
+            echo "暂无渠道码，请添加";
         }
         $conn->close();
       }else{

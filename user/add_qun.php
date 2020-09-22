@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>活码管理系统 - 群活码编辑</title>
+  <title>活码管理系统 - 创建群活码</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
@@ -27,12 +27,12 @@
 </head>
 <body style="background:#fff;">
 <div class="container">
-  <h2>活码管理系统 - 群活码编辑</h2>
+  <h2>活码管理系统 - 创建群活码</h2>
   <br>
   <!-- Nav pills -->
   <ul class="nav nav-pills" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" data-toggle="pill" href="#home">群活码编辑</a>
+      <a class="nav-link active" data-toggle="pill" href="#home">创建群活码</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="index.php">返回首页</a>
@@ -43,78 +43,56 @@
   <div class="tab-content">
     <div id="home" class="tab-pane active"><br>
       <?php
-      header("Content-type:text/html;charset=utf-8");
-      session_start();
-      if(isset($_SESSION["huoma.admin"])){
+        header("Content-type:text/html;charset=utf-8");
 
         // 数据库配置
         include '../MySql.php';
 
         // 创建连接
         $conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
-        
+
         // 检查连接
         if ($conn->connect_error) {
             die("连接失败: " . $conn->connect_error);
         } 
          
-        $sql = "SELECT * FROM qun_huoma WHERE hm_id =".$_GET["hmid"];
+        $sql = "SELECT * FROM qun_huoma_yuming";
         $result = $conn->query($sql);
          
-        if ($result->num_rows > 0) {
-            // 输出数据
-            while($row = $result->fetch_assoc()) {
-
-            $id  = $row["id"];
-            $hm_id  = $row["hm_id"];
-            $title  = $row["title"];
-            $update_time  = $row["update_time"];
-            $qun_qrcode  = $row["qun_qrcode"];
-            $wx_qrcode  = $row["wx_qrcode"];
-            $wxid  = $row["wxid"];
-            $page_view  = $row["page_view"];
-            $biaoqian  = $row["biaoqian"];
-            $wxstatus  = $row["wxstatus"];
-            $byqun_status  = $row["byqun_status"];
-            $huoma_status  = $row["huoma_status"];
-            $byqun_qrcode  = $row["byqun_qrcode"];
-            $byqun_maxnum  = $row["qun_maxnum"];
-            $yuming  = $row["yuming"];
-
-            echo '<form role="form" action="##" onsubmit="return false" method="post" id="update">
+        
+        session_start();
+        if(isset($_SESSION["huoma.user.admin"])){
+          echo '<form role="form" action="##" onsubmit="return false" method="post" id="addqun" enctype="multipart/form-data">
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">群活码标题</span>
                   </div>
-                  <input type="text" class="form-control" name="title" value="'.$title.'" placeholder="请输入群活码标题">
+                  <input type="text" class="form-control" name="title" placeholder="请输入群活码标题">
                 </div>';
 
-                 echo '<select class="form-control" id="byqun_status" style="margin-bottom:15px;" name="yuming">';
-                 echo '<option value="'.$yuming.'">当前域名：'.$yuming.'</option>';
-                 echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
-                  // 获取落地域名列表
-                  $sql_ldym = "SELECT * FROM qun_huoma_yuming";
-                  $result_ldym = $conn->query($sql_ldym);
-                  if ($result_ldym->num_rows > 0) {
+                echo '<select class="form-control" style="margin-bottom:15px;" name="yuming">';
+                echo '<option value="">请选择落地页域名</option>';
+                  if ($result->num_rows > 0) {
                       // 输出数据
-                      while($row_ldym = $result_ldym->fetch_assoc()) {
-                        $ldym = $row_ldym["yuming"];
-                         echo '<option value="'.$ldym.'">'.$ldym.'</option>';
+                      while($row = $result->fetch_assoc()) {
+                        $ym = $row["yuming"];
+                         echo '<option value="'.$ym.'">'.$ym.'</option>';
                       }
+                      echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
                   } else {
-                     // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'/">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                     echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
                   }
                 echo "</select>";
 
                 echo '<div class="upload_qun input-group mb-3">
-                  <input type="text" class="form-control" name="qun_qrcode" value="'.$qun_qrcode.'" placeholder="请上传微信群二维码">
+                  <input type="text" class="form-control" name="qun_qrcode" placeholder="请上传微信群二维码">
                   <div class="input-group-append" style="cursor:pointer;">
                     <span class="input-group-text" data-toggle="modal" data-target="#select_qun_model">上传微信群二维码</span>
                   </div>
                 </div>
 
                 <div class="upload_wx input-group mb-3">
-                  <input type="text" class="form-control" name="wx_qrcode" value="'.$wx_qrcode.'" placeholder="请上传微信二维码">
+                  <input type="text" class="form-control" name="wx_qrcode" placeholder="请上传微信二维码">
                   <div class="input-group-append" style="cursor:pointer;">
                     <span class="input-group-text" data-toggle="modal" data-target="#select_wx_model">上传微信二维码</span>
                   </div>
@@ -124,73 +102,49 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">微信号</span>
                   </div>
-                  <input type="text" class="form-control" name="wxid" value="'.$wxid.'" placeholder="请输入微信号">
+                  <input type="text" class="form-control" name="wxid" placeholder="请输入微信号">
                 </div>';
 
-                echo "<label for=\"byewm_status\">是否开启备用群</label>";
-                if ($byqun_status == 1) {
-                    echo '<select class="form-control" id="byewm_status" style="margin-bottom:15px;" name="byqun_status">
-                          <option value="1">开启</option>
-                          <option value="0">关闭</option>
-                        </select>';
-                  }else if ($byqun_status == 0) {
-                    echo '<select class="form-control" id="byewm_status" style="margin-bottom:15px;" name="byqun_status">
-                          <option value="0">关闭</option>
-                          <option value="1">开启</option>
-                        </select>';
-                  }
-                
-                // 备用二维码
-                echo '<div id="byewm_upload">
-                        <div class="upload_byqun input-group mb-3">
-                          <input type="text" class="form-control" name="byqun_qrcode" value="'.$byqun_qrcode.'" placeholder="请上传备用群二维码">
-                          <div class="input-group-append" style="cursor:pointer;">
-                            <span class="input-group-text" data-toggle="modal" data-target="#select_byqun_model">上传备用群二维码</span>
-                          </div>
-                        </div>
-                        <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">阈值</span>
-                          </div>
-                          <input type="text" class="form-control" name="byqun_maxnum" value="'.$byqun_maxnum.'" placeholder="当访问量达到多少，自动切换备用群">
-                        </div>
-                      </div>';
+                echo '<label for="byewm_status">是否开启备用群</label>
+                <select class="form-control" id="byqun_status" style="margin-bottom:15px;" name="byqun_status">
+                  <option value="0">关闭</option>
+                  <option value="1">开启</option>
+                </select>';
 
-                echo '<label for="sel1">是否显示微信二维码和微信号</label>';
-                echo "<select class=\"form-control\" id=\"sel1\" style=\"margin-bottom:15px;\" name=\"wxstatus\">";
-                if ($wxstatus == 0) {
-                  echo "<option value=\"0\">隐藏</option>";
-                  echo "<option value=\"1\">显示</option>";
-                }else if ($wxstatus == 1) {
-                   echo "<option value=\"1\">显示</option>";
-                   echo "<option value=\"0\">隐藏</option>";
-                }
-                echo "</select>";
-                echo '<label for="sel1">活码状态</label>';
-                echo "<select class=\"form-control\" id=\"sel1\" style=\"margin-bottom:15px;\" name=\"huoma_status\">";
-                if ($huoma_status == 0) {
-                  echo "<option value=\"0\">暂停使用</option>";
-                  echo "<option value=\"1\">正常使用</option>";
-                }else if ($huoma_status == 1) {
-                   echo "<option value=\"1\">正常使用</option>";
-                   echo "<option value=\"0\">暂停使用</option>";
-                }
-                echo "</select>";
-                echo '<div class="input-group mb-3">
+                echo '<div id="byewm_upload" style="display:none;">
+                <div class="upload_byqun input-group mb-3">
+                <input type="text" class="form-control" name="byqun_qrcode" placeholder="请上传备用群二维码">
+                <div class="input-group-append" style="cursor:pointer;">
+                <span class="input-group-text" data-toggle="modal" data-target="#select_byqun_model">上传备用群二维码</span>
+                </div>
+                </div>
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <span class="input-group-text">阈值</span>
+                </div>
+                <input type="text" class="form-control" name="byqun_maxnum" placeholder="当访问量达到多少，自动切换备用群">
+                </div>
+                </div>';
+
+                echo '<label for="sel1">是否显示微信二维码和微信号</label>
+                <select class="form-control" id="sel1" style="margin-bottom:15px;" name="wxstatus">
+                  <option value="1">显示</option>
+                  <option value="0">隐藏</option>
+                </select>
+                <label for="sel1">活码状态</label>
+                <select class="form-control" id="sel1" style="margin-bottom:15px;" name="huoma_status">
+                  <option value="1">正常使用</option>
+                  <option value="0">暂停使用</option>
+                </select>
+                <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">标签</span>
                   </div>
-                  <input type="text" class="form-control" name="biaoqian" value="'.$biaoqian.'" placeholder="请输入标签，用于识别或查找">
+                  <input type="text" class="form-control" name="biaoqian" placeholder="请输入标签，用于识别或查找">
                 </div>
-                <input type="hidden" name="hm_id" value="'.$hm_id.'">
-                <button type="button" class="btn btn-dark" onclick="update()">更新群活码</button>
+                <button type="button" class="btn btn-dark" onclick="addqun()">创建群活码</button>
               </form>';
-            }
-        } else {
-            echo "0 结果";
-        }
-        $conn->close();
-      }else{
+        }else{
         // 未登录
         echo "<script>location.href='login.php';</script>";
       }
@@ -203,6 +157,7 @@
   <div class="Result" style="margin-top: 30px;display: none;"></div>
 </div>
 
+
 <!-- 上传微信群二维码控件 -->
 <div class="modal fade" id="select_qun_model">
   <div class="modal-dialog modal-sm">
@@ -210,7 +165,7 @@
  
       <!-- 模态框头部 -->
       <div class="modal-header">
-        <h4 class="modal-title">请上传微信群二维码</h4>
+        <h4 class="modal-title">上传微信群二维码</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
  
@@ -233,7 +188,6 @@
   </div>
 </div>
 
-
 <!-- 上传微信二维码控件 -->
 <div class="modal fade" id="select_wx_model">
   <div class="modal-dialog modal-sm">
@@ -241,7 +195,7 @@
  
       <!-- 模态框头部 -->
       <div class="modal-header">
-        <h4 class="modal-title">请上传微信二维码</h4>
+        <h4 class="modal-title">上传微信二维码</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
  
@@ -300,45 +254,30 @@ function closesctips(){
   $(".container .Result").css('display','none');
 }
 </script>
-<!-- 编辑提交 -->
+<!-- 提交 -->
 <script type="text/javascript">
-function update(){
+  function addqun(){
     $.ajax({
         type: "POST",
-        url: "edi_qun_do.php",
-        data: $('#update').serialize(),
+        url: "add_qun_do.php",
+        data: $('#addqun').serialize(),
         success: function (data) {
-          // 更新成功
-          if (data.result == "101") {
-            $(".container .Result").css('display','block');
-            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-          }else if (data.result == "102") {
-            $(".container .Result").css('display','block');
-            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-          }else if (data.result == "103") {
-            $(".container .Result").css('display','block');
-            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-          }else if (data.result == "104") {
-            $(".container .Result").css('display','block');
-            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-          }else if (data.result == "105") {
-            $(".container .Result").css('display','block');
-            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-          }else if (data.result == "100") {
+          // 创建成功
+          if (data.result == "100") {
             $(".container .Result").css('display','block');
             $(".container .Result").html("<div class=\"alert alert-success\"><strong>"+data.msg+"</strong></div>");
-            location.href='index.php';
+            window.setTimeout("window.location='index.php'",1800); 
           }else{
             $(".container .Result").css('display','block');
-            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>更新失败，发生错误</strong></div>");
+            $(".container .Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
           }
           // 关闭提示
           setTimeout('closesctips()', 2000);
         },
         error : function() {
-          // 更新失败
+          // 创建失败
           $(".container .Result").css('display','block');
-          $(".container .Result").html("<div class=\"alert alert-danger\"><strong>更新失败，服务器发生错误</strong></div>");
+          $(".container .Result").html("<div class=\"alert alert-danger\"><strong>添加失败，服务器发生错误</strong></div>");
           setTimeout('closesctips()', 2000);
         }
     });
@@ -378,6 +317,7 @@ function update(){
     }
   }
 
+
   // 上传微信二维码
   var wx_lunxun = setInterval("upload_wx()",2000);
     function upload_wx() {
@@ -413,7 +353,7 @@ function update(){
   }
 
 
-  // 上传备用微信群二维码
+  // 上传微信群二维码
   var byqun_lunxun = setInterval("upload_byqun()",2000);
     function upload_byqun() {
     var byqun_filename = $("#select_byqun").val();
@@ -447,22 +387,16 @@ function update(){
     }
   }
 
-  //监听备用二维码的启用状态
-  $(document).ready(function(){
-    var byewm_status = $("#byewm_status").val();
-    if (byewm_status == 0) {
-      $("#byewm_upload").css("display","none");
-    }else if (byewm_status == 1) {
-      $("#byewm_upload").css("display","block");
-    }
-  }) 
 
   //监听备用二维码的启用状态
-  $("#byewm_status").bind('input propertychange',function(e){
+  $("#byqun_status").bind('input propertychange',function(e){
+    //获取当前点击的状态
     var byewm_status = $(this).val();
+    //如果开启备用群，则需要显示上传二维码和设置最大值
     if (byewm_status == 1) {
       $("#byewm_upload").css("display","block");
     }else if (byewm_status == 0) {
+      //否则隐藏，不显示
       $("#byewm_upload").css("display","none");
     }
   })

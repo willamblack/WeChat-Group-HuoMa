@@ -1,9 +1,9 @@
 <?php
 header("Content-type:application/json");
 session_start();
-if(isset($_SESSION["huoma.admin"])){
+if(isset($_SESSION["huoma.user.admin"])){
 
-	$user = $_SESSION["huoma.admin"];
+	$user = $_SESSION["huoma.user.admin"];
 
 	// 数据库配置
 	include '../MySql.php';
@@ -49,7 +49,7 @@ if(isset($_SESSION["huoma.admin"])){
 		$date = date('Y-m-d');
 		mysqli_query($conn, "SET NAMES UTF-8"); //utf8 设为对应的编码
 		// 更新数据库
-		mysqli_query($conn,"UPDATE qun_huoma_qudao SET qudao_title='$qudao_title',qudao_yuming='$qudao_yuming',qudao_type='$qudao_type',qudao_content='$qudao_content',qudao_biaoqian='$qudao_biaoqian',qudao_update_time='$date' WHERE qudao_id='$qudao_id' AND qudao_adduser = '$user'");
+		mysqli_query($conn,"UPDATE qun_huoma_qudao SET qudao_title='$qudao_title',qudao_yuming='$qudao_yuming',qudao_type='$qudao_type',qudao_content='$qudao_content',qudao_biaoqian='$qudao_biaoqian',qudao_update_time='$date' WHERE qudao_id='$qudao_id' AND qudao_adduser ='$user'");
 		$result = array(
 			"result" => "100",
 			"msg" => "更新成功"

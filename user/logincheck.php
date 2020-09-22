@@ -36,25 +36,38 @@ if($adminuser == "" && $adminpsw == ""){
 	// 返回记录
 	$row_user=mysqli_num_rows($result_checkuser);
 	if ($row_user) {
-		// 如果账号和密码都对上，还要验证是不是管理员
-		$result_admincheck = $conn->query($sql_checkuser);
-		while($row_admincheck = $result_admincheck->fetch_assoc()) {
-			$user_quanxian  = $row_admincheck["user_quanxian"];
-			if ($user_quanxian == '777') {
+		// 如果账号和密码都对上，验证账号状态
+		while($row_userstatus = $result_checkuser->fetch_assoc()) {
+			$userstatus = $row_userstatus["user_status"];
+			$user_daoqidate = $row_userstatus["user_guoqidate"];
+		}
+		// 计算是否已经到期
+		date_default_timezone_set("Asia/Shanghai");
+		$thisdate=date("Y-m-d");// 当前日期
+		$daoqidate=$user_daoqidate;// 到期日期
+
+		if ($userstatus == 0) {
+
+			// 判断账号是否已到期
+			if(strtotime($thisdate)<strtotime($daoqidate)){
 				session_start();
-				$_SESSION['huoma.admin'] = $adminuser;
+				$_SESSION['huoma.user.admin'] = $adminuser;
 				$result = array(
 					"result" => "100",
 					"msg" => "登录成功"
 				);
 			}else{
 				$result = array(
-					"result" => "105",
-					"msg" => "该账号不是管理员"
+					"result" => "106",
+					"msg" => "该账号已到期，请续期"
 				);
 			}
+		}else if ($userstatus == 1){
+			$result = array(
+				"result" => "105",
+				"msg" => "该账号已被暂停使用"
+			);
 		}
-		
 	}else{
 		// 否则返回账号或密码错误
 		$result = array(
