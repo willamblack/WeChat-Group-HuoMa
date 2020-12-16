@@ -1,6 +1,8 @@
 # WeChat-Group-HuoMa
 微信群二维码活码工具，生成微信群活码，随时可以切换二维码！微信官方群二维码有效期是7天，过期后无法扫码进群，或者是群人数满200人就无法扫码进群，如果我们在推广的时候，群满人或者过期了，别人还想进群，我们将会失去很多推广效果，所以有了群活码，可以在不更换链接和二维码的前提下，切换扫码后显示的内容，灵活变换！
 
+
+<img src="https://github.com/likeyun/TANKING/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20201214175839.png" />
 <img src="https://raw.githubusercontent.com/likeyun/TANKING/master/timg.jpg" width="700" />
 
 # 作者博客
@@ -9,9 +11,21 @@ http://www.likeyun.cn/
 # 遇到问题请加入交流群
 http://pic.iask.cn/fimg/805445297649.jpg
 
-# 更新日志，版本v5.1.0
-`1、新增创建个人微信活码`<br/>
+# 更新说明（重要）
+上面是v5.1.0版本的代码，如果要下载v5.2.0代码请点击下面链接下载即可<br/>
+上面是v5.1.0版本的代码，如果要下载v5.2.0代码请点击下面链接下载即可<br/>
+上面是v5.1.0版本的代码，如果要下载v5.2.0代码请点击下面链接下载即可<br/>
+https://likeyun.lanzoux.com/b015yhs3e
+
+# 更新日志，版本v5.2.0
+`1、新增活动码`<br/>
 `2、修复上一版本的Bug`<br/>
+
+# 各版本之间的数据备份和恢复
+https://mp.weixin.qq.com/s/mmWC65I2xYi4CHqmHTIrDg
+
+# 修复日志
+2020-11-18 修复添加邀请码失败的问题
 
 # 功能总览
 `1、创建微信群活码、可添加群主微信二维码、可统计二维码访问量`<br/>
@@ -22,6 +36,7 @@ http://pic.iask.cn/fimg/805445297649.jpg
 `6、支持注册用户，使用邀请码注册`<br/>
 `7、有便捷的用户管理面板，邀请码面板`<br/>
 `8、可以创建个人微信活码`<br/>
+`9、可以创建活动码`示例：<a href="http://www.likeyunba.com/huoma/activehm.php?activeid=38588">点击查看</a><br/>
 
 
 本次更新与前4个版本不兼容，所以需要重新安装，安装前请到你的数据库把原来的数据表做好备份，以便安装完成后，恢复原有的数据，备份后，需要删除之前的所有数据表，否则安装不能成功！<br/>
@@ -57,6 +72,11 @@ http://pic.iask.cn/fimg/805445297649.jpg
 
 ![添加渠道码](https://github.com/likeyun/TANKING/blob/master/guanli_qudaoma.png?raw=true)
 ![添加渠道码](https://github.com/likeyun/TANKING/blob/master/creat_qudaoma.png)
+
+# 活动码
+活动码可以创建一个活动介绍页面，引导用户参与活动，当活动结束后，还可以将活动码设置为活动结束并留下联系方式，进一步引流。
+
+<img src="https://img06.mifile.cn/v1/MI_542ED8B1722DC/2acbdb2f292560aa6c0c110966b7eba8.png" />
 
 # 活码界面
 <img src="https://github.com/likeyun/TANKING/blob/master/qunhuoma-page.jpg" width="400"/>
